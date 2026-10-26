@@ -1,11 +1,11 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Pelacak Order</title>
+<title>Cek Order</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#F2F5F8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#151B20" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Pelacak Order">
+<meta name="apple-mobile-web-app-title" content="Cek Order">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" href="icons/icon-192.png">
 <style>
 :root{--bg:#F2F5F8;--card:#fff;--ink:#1B2630;--mut:#5E6B77;--line:#D9E0E7;--acc:#2B4C7E;--on:#fff;--ok:#1F7A55;--okbg:#DDF0E6;--wa:#8A5A00;--wabg:#FBEBC8;--no:#5E6B77;--nobg:#E6EBF0;--hi:#8F2D56;--hibg:#F6DCE8;color-scheme:light dark;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
@@ -42,7 +42,7 @@ dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);co
 details.done{margin-top:18px}details.done>summary{cursor:pointer;font-weight:600;min-height:32px}
 details.bk{margin-top:28px}details.bk summary{cursor:pointer;font-weight:600;min-height:32px}
 </style></head><body><div class="wrap">
-<h1>Pelacak Order</h1>
+<h1>Cek Order</h1>
 <p class="sub">PDF Instruction Sheet jadi order, Excel jadi jumlah yang sudah didapat.</p>
 <div class="bar">
 <label class="btn p">Tambah order (PDF)<input type="file" id="fpdf" accept="application/pdf,.pdf" multiple hidden></label>
@@ -197,14 +197,14 @@ $('#src').addEventListener('click',e=>{const b=e.target.closest('[data-dsrc]');i
 const snap=()=>JSON.stringify(Object.assign({app:'pelacak-order',versi:1,dibuat:new Date().toISOString()},D),null,1);
 function impor(txt){
   let o;try{o=JSON.parse(txt);}catch(e){msg('Isi tidak valid. Pastikan seluruh teks cadangan tertempel.',1);return;}
-  if(!o||!Array.isArray(o.orders)){msg('Ini bukan cadangan Pelacak Order.',1);return;}
+  if(!o||!Array.isArray(o.orders)){msg('Ini bukan cadangan Cek Order.',1);return;}
   o.orders.forEach(x=>{const i=D.orders.findIndex(y=>y.id===x.id);if(i>=0)D.orders[i]=x;else D.orders.push(x);});
   (o.src||(o.recv&&o.info?[{id:'s-'+o.info.file,file:o.info.file,tgl:o.info.tgl,rows:o.info.rows,unit:'M',recv:o.recv}]:[])).forEach(s=>{const i=D.src.findIndex(y=>y.id===s.id);if(i>=0)D.src[i]=s;else D.src.push(s);});
   save();render();msg('Cadangan diimpor: '+o.orders.length+' order.');
 }
 document.querySelector('details.bk').addEventListener('click',e=>{
   const b=e.target.closest('[data-bk]');if(!b)return;const a=b.dataset.bk,t=$('#tbk');
-  if(a==='unduh'){try{const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([snap()],{type:'application/json'}));l.download='cadangan-pelacak-order-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(l);l.click();l.remove();msg('Cadangan diunduh. Kalau tidak ada file yang muncul, pakai Salin sebagai teks.');}catch(x){msg('Unduh gagal. Pakai Salin sebagai teks.',1);}}
+  if(a==='unduh'){try{const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([snap()],{type:'application/json'}));l.download='cadangan-cek-order-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(l);l.click();l.remove();msg('Cadangan diunduh. Kalau tidak ada file yang muncul, pakai Salin sebagai teks.');}catch(x){msg('Unduh gagal. Pakai Salin sebagai teks.',1);}}
   else if(a==='salin'){t.value=snap();t.focus();t.select();const ok=()=>msg('Teks cadangan disalin. Tempel ke catatan atau WhatsApp.');
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(ok,()=>msg('Tekan lama pada kotak teks, lalu pilih Salin.'));else msg('Tekan lama pada kotak teks, lalu pilih Salin.');}
   else if(a==='teks')impor(t.value);

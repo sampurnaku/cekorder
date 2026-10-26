@@ -1,6 +1,6 @@
 {
- "name": "Pelacak Order",
- "short_name": "Pelacak Order",
+ "name": "Cek Order",
+ "short_name": "Cek Order",
  "description": "Pantau jumlah yang sudah didapat dari tiap order",
  "lang": "id",
  "start_url": "./",
